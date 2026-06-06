@@ -19,7 +19,7 @@ export interface SiteConfig {
   description: string;
   /** Absolute production origin (no trailing slash), used for canonical URLs and feeds. */
   site: string;
-  /** Path the site is served from, e.g. "/bytelog/". Must start and end with "/". */
+  /** Path the site is served from, e.g. "/zenith/". Must start and end with "/". */
   base: string;
   /** Primary navigation, rendered relative to `base`. */
   nav: NavItem[];
@@ -39,18 +39,18 @@ export interface SiteConfig {
 }
 
 export const SITE = {
-  name: 'Bytelog',
+  name: 'Zenith',
   description:
     'A technical portfolio exploring the intersection of structured environments, mechanical precision, and aesthetic intent.',
   site: 'https://nadavzhr.github.io',
-  base: '/bytelog/',
+  base: '/zenith/',
   nav: [
     { href: '', label: 'Home' },
     { href: 'articles', label: 'Articles' },
     { href: 'topics', label: 'Topics' },
     { href: 'about', label: 'About' },
   ],
-  repoUrl: 'https://github.com/nadavzhr/bytelog',
+  repoUrl: 'https://github.com/nadavzhr/zenith',
   author: {
     name: 'Nadav Zohar',
     title: 'Software Engineer',

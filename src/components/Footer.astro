@@ -1,6 +1,8 @@
 ---
-import { Box, Github, Linkedin, Rss, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Rss, ArrowUp } from 'lucide-react';
+import { Image } from 'astro:assets';
 import { SITE } from '../site.config';
+import logo from '../assets/zenith-logo.png';
 
 const { siteName, basePath, socialLinks } = Astro.props;
 const currentYear = new Date().getFullYear();
@@ -12,7 +14,7 @@ const currentYear = new Date().getFullYear();
     <!-- Left Section: Logo & Copyright Group -->
     <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
       <div class="flex items-center font-serif text-[20px] font-medium text-on-surface tracking-tight group">
-        <Box className="w-5 h-5 mr-2 text-primary group-hover:rotate-12 transition-transform duration-300" />
+        <Image src={logo} alt="Zenith Logo" class="w-6 h-6 mr-3 object-contain" />
         {siteName}
       </div>
       

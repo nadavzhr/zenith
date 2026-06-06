@@ -1,9 +1,10 @@
 ---
-import { Box } from 'lucide-react';
+import { Image } from 'astro:assets';
 import Navigation from './Navigation.astro';
 import { ThemeToggle } from './react/ThemeToggle';
 import { MobileNav } from './react/MobileNav';
 import { SITE } from '../site.config';
+import logo from '../assets/zenith-logo.png';
 
 interface Props {
   currentPath: string;
@@ -15,8 +16,8 @@ const base = SITE.base;
 
 <header class="fixed top-0 w-full z-50 bg-surface-container-low border-b border-on-surface/10 transition-colors duration-300">
   <div class="max-w-container-max w-full mx-auto flex justify-between items-center h-16 px-margin-page">
-    <a href={base} class="flex items-center font-serif text-[24px] font-medium tracking-tight text-on-surface hover:opacity-80 transition-opacity">
-      <Box className="w-6 h-6 mr-3 text-primary" />
+    <a href={base} class="flex items-center font-serif text-[24px] font-bold tracking-tight text-on-surface hover:opacity-80 transition-opacity">
+      <Image src={logo} alt="Zenith Logo" class="h-10 w-auto mr-3 object-contain" />
       {SITE.name}
     </a>
 

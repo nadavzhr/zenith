@@ -1,6 +1,6 @@
-# Bytelog
+# Zenith
 
-Bytelog is a personal "digital vault" and learning catalyst. It serves as a permanent, searchable home for technical notes, articles, and references, functioning similarly to an Obsidian vault but built for my self. The goal is to create a space where I can document my learning journey, share insights, and hold myself accountable to clarity and accuracy.
+Zenith is a personal "digital vault" and learning catalyst. It serves as a permanent, searchable home for technical notes, articles, and references, functioning similarly to an Obsidian vault but built for my self. The goal is to create a space where I can document my learning journey, share insights, and hold myself accountable to clarity and accuracy.
 
 ## The Philosophy
 
@@ -16,7 +16,7 @@ The core of this project is driven by two main principles:
 
 ## Infrastructure & Simplicity
 
-I chose **Astro** to power Bytelog because it handles all the heavy lifting of infrastructure (routing, performance, SEO, build pipelines) so I can focus on what matters: **learning and writing.**
+I chose **Astro** to power Zenith because it handles all the heavy lifting of infrastructure (routing, performance, SEO, build pipelines) so I can focus on what matters: **learning and writing.**
 
 The goal is absolute simplicity:
 - **Content-First**: Adding new content is as simple as creating an `.mdx` file.
@@ -32,7 +32,7 @@ The goal is absolute simplicity:
 
 ## Handling Images
 
-Bytelog uses **Astro's Assets API** to automatically optimize images. 
+Zenith uses **Astro's Assets API** to automatically optimize images. 
 
 1.  **Placement**: Place all images (covers, inline photos) in `src/assets/`.
 2.  **Article Covers**: Reference the image in your frontmatter using a relative path:
@@ -53,4 +53,4 @@ Bytelog uses **Astro's Assets API** to automatically optimize images.
 4.  **Deploy**: Push to GitHub; Astro builds the static site into the `/docs` folder for hosting on GitHub Pages.
 
 ---
-© 2026 Bytelog. All rights reserved.
+© 2026 Zenith. All rights reserved.

@@ -4,7 +4,7 @@ import { SITE } from '../site.config';
 import { getArticles, topicOf, articleSlug, articleDate } from '../lib/content';
 
 export async function GET(context: APIContext) {
-  const base = import.meta.env.BASE_URL; // e.g. "/bytelog/"
+  const base = import.meta.env.BASE_URL; // e.g. "/zenith/"
   const articles = await getArticles();
   const items = articles
     .map((article) => ({
