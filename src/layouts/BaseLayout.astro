@@ -1,0 +1,103 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site.config';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Search from 'astro-pagefind/components/Search.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Use the wide container for grid/landing pages; articles stay narrow. */
+  wide?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  wide = false,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const pageTitle = title ? `${title} — ${SITE.name}` : SITE.name;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      const setTheme = () => {
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        })();
+      
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        window.localStorage.setItem('theme', theme);
+      };
+
+      setTheme();
+      document.addEventListener('astro:after-swap', setTheme);
+    </script>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="shortcut icon" href={`${base}favicon.svg`} />
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.name}
+      href={`${base}rss.xml`}
+    />
+    <title>{pageTitle}</title>
+    <ClientRouter />
+  </head>
+  <body transition:animate="fade" class="bg-surface text-on-surface font-sans min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container transition-colors duration-300 relative">
+    <!-- Scroll Progress Bar (Pure CSS/Astro) -->
+    <div 
+      id="scroll-progress"
+      class="fixed top-0 left-0 right-0 h-[3px] bg-primary z-[60] origin-left scale-x-0"
+    ></div>
+
+    <Header currentPath={currentPath}>
+      <Search slot="search" className="pagefind-ui" configOptions={{ showImages: false }} />
+    </Header>
+
+    <main class="flex-grow pt-24 pb-section-gap px-margin-page max-w-container-max mx-auto w-full">
+      <div data-pagefind-body>
+        <slot />
+      </div>
+    </main>
+
+    <Footer siteName={SITE.name} basePath={base} socialLinks={SITE.links} />
+
+    <script>
+      // Simple scroll progress listener to replace Framer Motion for the progress bar
+      const updateScrollProgress = () => {
+        const progressBar = document.getElementById('scroll-progress');
+        if (!progressBar) return;
+        
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height);
+        progressBar.style.transform = `scaleX(${scrolled})`;
+      };
+
+      window.addEventListener('scroll', updateScrollProgress);
+      document.addEventListener('astro:after-swap', updateScrollProgress);
+    </script>
+  </body>
+</html>

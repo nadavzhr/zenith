@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticlePreview from '../components/ArticlePreview.astro';
+import { getArticles, articleDateOrEpoch } from '../lib/content';
+
+const base = import.meta.env.BASE_URL;
+const articles = (await getArticles()).sort(
+  (a, b) => articleDateOrEpoch(b).getTime() - articleDateOrEpoch(a).getTime()
+);
+---
+
+<BaseLayout title="All Writing" description="A chronological archive of all technical essays and notes in the vault.">
+  <header class="mb-16 md:mb-24">
+    <h1 class="font-serif text-[48px] font-bold tracking-[-0.02em] text-on-surface mb-6">Archive.</h1>
+    <p class="text-[18px] text-on-surface-variant max-w-2xl leading-[1.6]">
+      A complete record of learning and technical deconstruction.
+    </p>
+  </header>
+
+  <section class="max-w-[800px]">
+    <div class="flex flex-col">
+      {articles.map((article, idx) => (
+        <ArticlePreview 
+          article={article} 
+          layout="row" 
+          class={idx === 0 ? 'border-t-0' : ''} 
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

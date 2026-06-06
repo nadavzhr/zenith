@@ -1,0 +1,44 @@
+---
+import { Box } from 'lucide-react';
+import Navigation from './Navigation.astro';
+import { ThemeToggle } from './react/ThemeToggle';
+import { MobileNav } from './react/MobileNav';
+import { SITE } from '../site.config';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const base = SITE.base;
+---
+
+<header class="fixed top-0 w-full z-50 bg-surface-container-low border-b border-on-surface/10 transition-colors duration-300">
+  <div class="max-w-container-max w-full mx-auto flex justify-between items-center h-16 px-margin-page">
+    <a href={base} class="flex items-center font-serif text-[24px] font-medium tracking-tight text-on-surface hover:opacity-80 transition-opacity">
+      <Box className="w-6 h-6 mr-3 text-primary" />
+      {SITE.name}
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center gap-10">
+      <Navigation navItems={SITE.nav} basePath={base} currentPath={currentPath} />
+      <div class="flex items-center gap-2 relative">
+        <ThemeToggle client:load />
+        <div class="w-64 max-w-full z-[100] relative">
+          <slot name="search" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <MobileNav 
+      client:load 
+      navItems={SITE.nav} 
+      basePath={base} 
+      currentPath={currentPath}
+    >
+      <slot name="search" />
+    </MobileNav>
+  </div>
+</header>

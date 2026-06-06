@@ -1,0 +1,78 @@
+---
+import { formatDate as fmtDate, articleDate as artDate, topicOf as getTopic, articleSlug as getSlug } from '../lib/content';
+
+interface Props {
+  article: any;
+  layout?: 'card' | 'row';
+  class?: string;
+}
+
+const { article, layout = 'row', class: className = '' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const topic = getTopic(article);
+const slug = getSlug(article);
+const path = `${base}${topic}/${slug}`;
+const date = fmtDate(artDate(article));
+const readTime = article.data.readTime || "5 min read";
+---
+
+{layout === 'card' ? (
+  <div class={`border border-on-surface/10 rounded-sm bg-surface overflow-hidden group hover:border-primary/30 transition-colors h-full ${className}`}>
+    <a href={path} class="block cursor-pointer focus:outline-none focus:bg-surface-container-low transition-colors h-full flex flex-col p-6 md:p-8">
+      <div class="flex-grow flex flex-col">
+        <div class="flex items-center gap-3 mb-4 text-[11px] font-mono uppercase tracking-wider text-secondary/60">
+          <span>{date}</span>
+          <span class="text-secondary/30">•</span>
+          <span>{readTime}</span>
+        </div>
+
+        <h3 class="font-serif text-[28px] md:text-[32px] font-semibold text-on-surface group-hover:text-primary transition-colors duration-300 leading-[1.2] mb-4">
+          {article.data.title}
+        </h3>
+
+        <p class="text-secondary text-[16px] leading-[1.6] mb-6 line-clamp-3">
+          {article.data.description}
+        </p>
+      </div>
+      
+      {article.data.tags && article.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-on-surface/5">
+          {article.data.tags.map(tag => (
+            <span class="px-2 py-0.5 rounded-full bg-primary/5 text-primary text-[10px] uppercase tracking-wider font-medium border border-primary/20 group-hover:bg-primary/10 transition-colors">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </a>
+  </div>
+) : (
+  <article class={`group/article border-t border-on-surface/10 ${className}`}>
+    <a href={path} class="block py-8 px-4 md:px-6 -mx-4 md:-mx-6 rounded-sm hover:bg-surface-container-low transition-colors">
+      <div class="flex items-center gap-3 mb-3 text-[11px] font-mono uppercase tracking-wider text-secondary/60">
+        <time>{date}</time>
+        <span class="text-secondary/30">•</span>
+        <span>{readTime}</span>
+      </div>
+
+      <h3 class="font-serif text-[24px] md:text-[28px] font-medium text-on-surface mb-3 group-hover/article:text-primary transition-colors duration-200">
+        {article.data.title}
+      </h3>
+
+      <p class="text-[16px] md:text-[17px] text-on-surface-variant max-w-3xl leading-[1.6] mb-4">
+        {article.data.description}
+      </p>
+
+      {article.data.tags && article.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {article.data.tags.map(tag => (
+            <span class="px-2 py-0.5 rounded-full bg-primary/5 text-primary text-[10px] uppercase tracking-wider font-medium border border-primary/20 group-hover/article:bg-primary/10 transition-colors">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </a>
+  </article>
+)}

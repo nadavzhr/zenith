@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { ArrowRight } from 'lucide-react';
+import { SITE } from '../site.config';
+import profileImage from '../assets/portfolio-pixelated.png';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="About">
+  <header class="mb-section-gap md:mb-24 flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-24 text-left">
+    <div class="md:w-3/5">
+      <h1 class="font-serif text-[48px] md:text-[72px] font-bold tracking-[-0.02em] text-on-surface mb-6 leading-[1.1]">
+        The Digital Vault.
+      </h1>
+      <p class="text-[18px] md:text-[20px] text-secondary max-w-2xl leading-[1.6]">
+        Bytelog is a personal learning catalyst—a permanent home for technical notes, articles, and references, built to ensure clarity through the act of writing.
+      </p>
+    </div>
+    <div class="md:w-2/5 flex justify-center md:justify-end">
+      <Image 
+        src={profileImage} 
+        alt="Author portrait" 
+        class="w-48 h-48 lg:w-72 lg:h-72 rounded-full object-cover object-top filter grayscale contrast-125" 
+      />
+    </div>
+  </header>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-gutter-list mb-[80px]">
+    <div class="text-[16px] text-on-surface/80 space-y-6 leading-[1.6]">
+      <h2 class="font-serif text-[24px] font-medium text-on-surface">The Philosophy</h2>
+      <p>
+        The core of this project is driven by the <strong>Feynman Technique</strong>: "If you cannot explain a concept simply, you do not understand it well enough." Writing these articles forces me to distill complex topics into their simplest forms, ensuring true mastery.
+      </p>
+      <p>
+        I aim to break down complex systems and concepts by starting from their most fundamental truths—<strong>First Principles</strong>. By stripping away the unnecessary, we allow the essential structure to carry the load.
+      </p>
+    </div>
+    <div class="text-[16px] text-on-surface/80 space-y-6 leading-[1.6]">
+      <h2 class="font-serif text-[24px] font-medium text-on-surface">The Mission</h2>
+      <p>
+        By putting this content on the public web, I hold myself to a higher standard of accuracy and clarity. <strong>Accountability</strong> is key—it's a way to ensure I don't just "spew bullshit" while I learn, even if no one ever reads it.
+      </p>
+      <p>
+        Bytelog is built with Astro for absolute simplicity, allowing me to focus on what matters: learning and writing. It is a space where I can document my learning journey and share insights as I explore the structural elegance of digital engineering.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-section-gap pt-12 text-center md:text-left border-t border-on-surface/10 mb-8">
+    <h2 class="font-serif text-[24px] font-medium text-on-surface mb-4">Contact</h2>
+    <p class="text-[16px] text-secondary mb-6 max-w-lg">
+      If you happen to actually read this and want to chat about anything, or just want to say hi, feel free to reach out!
+    </p>
+    <a href={`mailto:${SITE.author.email}`} class="inline-flex items-center gap-2 text-on-surface text-[14px] font-medium uppercase tracking-widest group">
+      <span class="border-b-2 border-transparent group-hover:border-primary-container transition-colors duration-300 pb-1">{SITE.author.email}</span>
+      <ArrowRight className="text-primary-container transform group-hover:translate-x-1 transition-transform" size={20} />
+    </a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticlePreview from '../../components/ArticlePreview.astro';
+import {
+  getArticles,
+  tagsOf,
+  tagSlug,
+  topicOf,
+  articleSlug,
+  formatDate,
+  articleDate,
+} from '../../lib/content';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  const tags = tagsOf(articles);
+  return tags.map((tag) => {
+    const matches = articles.filter((a) => a.data.tags.includes(tag));
+    return { params: { tag: tagSlug(tag) }, props: { tag, articles: matches } };
+  });
+}
+
+const base = import.meta.env.BASE_URL;
+const { tag, articles } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`Articles tagged ${tag}.`}>
+  <header class="mb-12">
+    <div class="text-[14px] font-medium uppercase tracking-widest text-primary mb-4">Tag</div>
+    <h1 class="font-serif text-[48px] md:text-[64px] font-bold tracking-[-0.02em] text-on-surface mb-6 leading-[1.1]">
+      #{tag}
+    </h1>
+    <p class="text-[18px] md:text-[20px] text-on-surface-variant max-w-2xl leading-[1.6]">
+      {articles.length} article{articles.length === 1 ? '' : 's'} tagged with #{tag}.
+    </p>
+  </header>
+
+  <div class="flex flex-col">
+    {articles.map((article, idx) => (
+      <ArticlePreview 
+        article={article} 
+        layout="row" 
+        class={idx === 0 ? 'border-t-0' : ''} 
+      />
+    ))}
+  </div>
+</BaseLayout>

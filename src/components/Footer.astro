@@ -1,0 +1,51 @@
+---
+import { Box, Github, Linkedin, Rss, ArrowUp } from 'lucide-react';
+import { SITE } from '../site.config';
+
+const { siteName, basePath, socialLinks } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full py-8 border-t border-on-surface/10 bg-surface-container-low mt-auto">
+  <div class="max-w-container-max w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-6 px-margin-page">
+    
+    <!-- Left Section: Logo & Copyright Group -->
+    <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+      <div class="flex items-center font-serif text-[20px] font-medium text-on-surface tracking-tight group">
+        <Box className="w-5 h-5 mr-2 text-primary group-hover:rotate-12 transition-transform duration-300" />
+        {siteName}
+      </div>
+      
+      <div class="hidden md:block w-px h-4 bg-on-surface/10"></div>
+      
+      <div class="text-[12px] uppercase tracking-widest font-medium text-secondary/60">
+        © {currentYear} — All rights reserved
+      </div>
+    </div>
+
+    <!-- Right Section: Socials & Back to Top -->
+    <div class="flex items-center gap-8">
+      <nav class="flex gap-5 text-secondary/60">
+        <a href={`${basePath}rss.xml`} aria-label="RSS Feed" class="hover:text-primary transition-colors">
+          <Rss size={18} />
+        </a>
+        <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-primary transition-colors">
+          <Linkedin size={18} />
+        </a>
+        <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-primary transition-colors">
+          <Github size={18} />
+        </a>
+      </nav>
+
+      <div class="w-px h-4 bg-on-surface/10 hidden md:block"></div>
+
+      <button 
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="flex items-center gap-2 text-[12px] uppercase tracking-widest font-bold text-primary hover:text-primary-container transition-colors cursor-pointer group"
+      >
+        <span>Top</span>
+        <ArrowUp size={16} class="group-hover:-translate-y-0.5 transition-transform" />
+      </button>
+    </div>
+  </div>
+</footer>

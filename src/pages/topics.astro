@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ArrowRight } from 'lucide-react';
+import ArticlePreview from '../components/ArticlePreview.astro';
+import {
+  getTopics,
+  getArticlesByTopic,
+  articleSlug,
+  formatDate,
+  articleDate,
+  articleDateOrEpoch,
+} from '../lib/content';
+
+const base = import.meta.env.BASE_URL;
+const topics = await getTopics();
+---
+
+<BaseLayout title="Topics">
+  {/* Page Header */}
+  <header class="mb-16 md:mb-24 text-center md:text-left">
+    <h1 class="font-serif text-[48px] font-bold tracking-[-0.02em] text-on-surface mb-6">Topics.</h1>
+    <p class="text-[18px] text-on-surface-variant max-w-2xl leading-[1.6]">
+      A structured collection of technical essays, broken down from first principles to reveal the underlying mechanics of modern systems.
+    </p>
+  </header>
+
+  {topics.map(async (topic, topicIdx) => {
+    const topicArticles = (await getArticlesByTopic(topic.id)).sort(
+      (a, b) => articleDateOrEpoch(b).getTime() - articleDateOrEpoch(a).getTime()
+    );
+    return (
+      <>
+        <section class="mb-section-gap group">
+          <div class="grid grid-cols-1 md:grid-cols-[minmax(300px,400px)_1fr] gap-12 md:gap-20 items-start">
+            <div class="shrink-0 md:sticky md:top-24">
+              <h2 class="font-serif text-[32px] font-semibold text-on-surface mb-4 transition-colors duration-300 group-hover:text-primary">
+                {topic.data.title}
+              </h2>
+              <p class="text-[16px] text-on-surface-variant mb-6 leading-[1.6]">
+                {topic.data.description}
+              </p>
+              <div class="flex">
+                <a href={`${base}${topic.id}`} class="group/link flex items-center gap-2 text-[14px] font-medium text-primary whitespace-nowrap w-max flex-nowrap">
+                  <span class="relative">
+                    View All {topic.data.title}
+                    <span class="absolute -bottom-1 left-0 w-full h-px bg-primary transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300 origin-right group-hover/link:origin-left"></span>
+                  </span>
+                  <ArrowRight size={16} className="shrink-0" />
+                </a>
+              </div>
+            </div>
+            <div class="flex flex-col min-w-0">
+              {topicArticles.slice(0, 3).map((article, idx) => (
+                <ArticlePreview 
+                  article={article} 
+                  layout="row" 
+                  class={idx === 0 ? 'md:first:border-t-0' : ''} 
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+        {topicIdx < topics.length - 1 && <div class="editorial-divider my-12"></div>}
+      </>
+    )
+  })}
+</BaseLayout>
+

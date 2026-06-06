@@ -1,0 +1,34 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { render } from 'astro:content';
+import {
+  getTopics,
+  getArticles,
+  assertArticlesHaveTopics,
+  topicOf,
+  articleSlug,
+} from '../../lib/content';
+
+export async function getStaticPaths() {
+  await assertArticlesHaveTopics();
+  const [topics, articles] = await Promise.all([getTopics(), getArticles()]);
+  const topicById = new Map(topics.map((t) => [t.id, t]));
+  return articles.flatMap((article) => {
+    const topic = topicById.get(topicOf(article));
+    if (!topic) return [];
+    return [
+      {
+        params: { topic: topic.id, article: articleSlug(article) },
+        props: { article, topic },
+      },
+    ];
+  });
+}
+
+const { article, topic } = Astro.props;
+const { Content, headings } = await render(article);
+---
+
+<ArticleLayout article={article} topic={topic} headings={headings}>
+  <Content />
+</ArticleLayout>

@@ -1,0 +1,49 @@
+---
+import { Home, Hash, User, ScrollText } from 'lucide-react';
+import { normalizePath } from '../lib/utils';
+
+interface Props {
+  navItems: { href: string; label: string }[];
+  basePath: string;
+  currentPath: string;
+}
+
+const { navItems, basePath, currentPath } = Astro.props;
+
+const normalizedCurrentPath = normalizePath(currentPath);
+const normalizedBasePath = normalizePath(basePath);
+
+const iconMap = {
+  'Home': Home,
+  'Articles': ScrollText,
+  'Topics': Hash,
+  'About': User
+};
+---
+
+<nav class="hidden md:flex items-center gap-8">
+  {navItems.map((item) => {
+    const fullPath = `${basePath}${item.href}`.replace(/\/+$/, '') + '/';
+    const normalizedFullPath = normalizePath(fullPath);
+    
+    const isHome = item.href === '';
+    const isActive = isHome 
+      ? normalizedCurrentPath === normalizedBasePath 
+      : normalizedCurrentPath.startsWith(normalizedFullPath);
+
+    const Icon = iconMap[item.label as keyof typeof iconMap];
+
+    return (
+      <a 
+        href={fullPath} 
+        class:list={[
+          "flex items-center gap-2 text-[14px] font-medium transition-colors duration-300 ease-in-out cursor-pointer active:opacity-70",
+          isActive ? "text-primary border-b-2 border-primary pb-1" : "text-secondary hover:text-on-surface"
+        ]}
+      >
+        {Icon && <Icon size={18} />}
+        {item.label}
+      </a>
+    );
+  })}
+</nav>

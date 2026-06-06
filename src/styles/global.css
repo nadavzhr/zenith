@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
+@import "tailwindcss";
+@import 'katex/dist/katex.min.css';
+
+@theme {
+  --color-surface: #fbf9f5;
+  --color-surface-dim: #dbdad6;
+  --color-surface-bright: #fbf9f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3ef;
+  --color-surface-container: #efeeea;
+  --color-surface-container-high: #eae8e4;
+  --color-surface-container-highest: #e4e2de;
+  --color-on-surface: #1b1c1a;
+  --color-on-surface-variant: #55423f;
+  --color-outline: #88726e;
+  --color-outline-variant: #dbc1bc;
+  --color-primary: #9a4436;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #d97463;
+  --color-secondary: #5f5e5e;
+  --color-background: #fbf9f5;
+  --color-on-background: #1b1c1a;
+  --color-surface-variant: #e4e2de;
+
+  --font-body-md: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --spacing-container-max: 1440px;
+  --spacing-margin-page: clamp(1.5rem, 5vw, 4rem);
+  --spacing-gutter-list: 2rem;
+  --spacing-section-gap: 4rem;
+
+  --pagefind-ui-scale: 0.8;
+  --pagefind-ui-primary: var(--color-primary);
+  --pagefind-ui-text: var(--color-on-surface);
+  --pagefind-ui-background: var(--color-surface);
+  --pagefind-ui-border: var(--color-outline-variant);
+  --pagefind-ui-tag: var(--color-surface-variant);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 4px;
+  --pagefind-ui-font: var(--font-sans);
+}
+
+@layer base {
+  .dark {
+    --color-surface: #1c1b18;
+    --color-surface-dim: #141311;
+    --color-surface-bright: #23221e;
+    --color-surface-container-lowest: #0f0e0d;
+    --color-surface-container-low: #23221e;
+    --color-surface-container: #2b2a25;
+    --color-surface-container-high: #33322c;
+    --color-surface-container-highest: #3b3a33;
+    --color-on-surface: #e6e2d3;
+    --color-on-surface-variant: #b5afa3;
+    --color-outline: #8c887d;
+    --color-outline-variant: #5c5952;
+    --color-primary: #ff8674;
+    --color-on-primary: #541007;
+    --color-primary-container: #ff8674;
+    --color-secondary: #d1cdc1;
+    --color-background: #1c1b18;
+    --color-on-background: #e6e2d3;
+    --color-surface-variant: #4a473f;
+  }
+}
+
+@layer utilities {
+  .divider {
+    @apply border-b border-on-surface/10;
+  }
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-variant);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-surface-dim);
+}
+
+.editorial-divider {
+  border-bottom: 1px solid rgba(34, 34, 34, 0.1);
+}
+
+/* Prose styling for MDX content - adapting for Bytelog UI */
+.prose {
+  line-height: 1.6;
+  font-size: 18px;
+  color: var(--color-on-surface-variant);
+}
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--color-on-surface);
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
+}
+.prose h1 { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; }
+.prose h2 { font-size: 32px; font-weight: 600; }
+.prose h3 { font-size: 24px; font-weight: 500; }
+
+.prose p {
+  margin: 1.5rem 0;
+}
+
+.prose blockquote {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-style: italic;
+  border-left: 2px solid var(--color-primary-container);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  color: var(--color-on-surface);
+}
+
+.prose pre {
+  border: 1px solid var(--color-outline-variant);
+  padding: 1.5rem;
+  border-radius: 2px;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+/* 
+  Shiki with dual themes in Astro outputs the light theme as inline styles 
+  and the dark theme as CSS variables (prefixed with --shiki-dark).
+  Since the site uses a manual .dark class, we force the override.
+  Targeting .astro-code which is the default class Astro applies.
+*/
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  /* Use the dark-specific variables for font styles if they exist */
+  font-style: var(--shiki-dark-font-style, inherit) !important;
+  font-weight: var(--shiki-dark-font-weight, inherit) !important;
+  text-decoration: var(--shiki-dark-text-decoration, inherit) !important;
+}
+
+.prose code {
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.prose :not(pre) > code {
+  background-color: var(--color-surface-container-low);
+  padding: 0.2rem 0.4rem;
+  border-radius: 2px;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "bytelog",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.2",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.4.4",
+    "astro-pagefind": "^2.0.0",
+    "katex": "^0.16.47",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.40.0",
+    "pagefind": "^1.5.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "recharts": "^3.8.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "vite": "^7"
+  }
+}

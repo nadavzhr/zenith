@@ -1,0 +1,125 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { getAdjacentArticles, coverFor, formatDate, articleDate, tagSlug, type Article, type Topic } from '../lib/content';
+import ArticlePreview from '../components/ArticlePreview.astro';
+import { SITE } from '../site.config';
+import type { MarkdownHeading } from 'astro';
+import profileImage from '../assets/portfolio-pixelated.png';
+
+interface Props {
+  article: Article;
+  topic: Topic;
+  headings?: MarkdownHeading[];
+}
+
+const { article, topic, headings = [] } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const { title, description, tags } = article.data;
+const date = articleDate(article);
+const cover = coverFor(article);
+
+const adjacentArticles = await getAdjacentArticles(article);
+
+const filteredHeadings = headings.filter((h) => h.depth >= 1 && h.depth <= 2);
+---
+
+<BaseLayout title={title} description={description}>
+  <header class="mb-12 max-w-[800px] mx-auto">
+    <!-- 1. Large Title -->
+    <h1 class="font-serif text-[48px] md:text-[64px] font-bold tracking-[-0.02em] text-on-surface mb-6 leading-[1.1]">
+      {title}
+    </h1>
+
+    <!-- 2. Description -->
+    <p class="text-[18px] md:text-[20px] text-on-surface-variant mb-8 leading-[1.6]">
+      {description}
+    </p>
+
+    <!-- 3. Tags -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {tags.map(tag => (
+          <a 
+            href={`${base}tags/${tagSlug(tag)}`}
+            class="px-2 py-0.5 rounded-full bg-primary/5 text-primary text-[10px] uppercase tracking-wider font-medium border border-primary/20 hover:bg-primary/10 transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- 4. Separator -->
+    <div class="border-t border-on-surface/10 pt-8 mt-8">
+      <!-- 5. Author, Date, and Read Time -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <Image 
+            src={profileImage} 
+            alt="Portrait" 
+            width={224}
+            class="w-14 h-14 rounded-full object-cover object-top filter grayscale contrast-125" 
+          />
+          <div>
+            <p class="text-[14px] font-medium text-on-surface">By {SITE.author.name}</p>
+            <p class="text-[13px] text-secondary">{SITE.author.title}</p>
+          </div>
+        </div>
+        <div class="text-[13px] font-mono uppercase tracking-wider text-secondary flex items-center gap-3">
+          <span>{formatDate(date)}</span>
+          <span class="text-secondary/30">•</span>
+          <span>{article.data.readTime || '5 min read'}</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {cover && (
+    <figure class="mb-12 flex flex-col items-center">
+      <div class="max-w-[800px] w-full overflow-hidden bg-surface-container-high rounded-sm">
+        <Image src={cover} alt={title} width={1200} height={675} class="w-full aspect-[16/7] md:aspect-[21/9] object-cover filter grayscale contrast-125" />
+      </div>
+    </figure>
+  )}
+
+  <div class="max-w-[800px] mx-auto px-0">
+    {filteredHeadings.length > 0 && (
+      <nav class="mb-12 p-8 bg-surface-container-low border border-on-surface/5 rounded-sm">
+        <h2 class="text-[12px] font-bold uppercase tracking-[0.2em] text-secondary mb-6">Table of Contents</h2>
+        <ul class="flex flex-col gap-4">
+          {filteredHeadings.map((h, index) => (
+            <li class="flex items-start gap-3" style={{ paddingLeft: `${(h.depth - 1) * 24}px` }}>
+              <span class="text-primary/30 font-mono text-[14px] mt-0.5">
+                {(index + 1).toString().padStart(2, '0')}
+              </span>
+              <a 
+                href={`#${h.slug}`} 
+                class="text-[15px] text-on-surface hover:text-primary transition-colors leading-snug"
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <div class="prose mx-auto">
+      <slot />
+    </div>
+
+    {adjacentArticles.length > 0 && (
+      <footer class="mt-24">
+        <div class="border-t border-on-surface/10 mb-12"></div>
+        <h2 class="font-serif text-[18px] font-medium text-secondary uppercase tracking-[0.2em] mb-12 text-center">Keep reading</h2>
+        <div class="border-t border-on-surface/10 mb-12"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {adjacentArticles.map(adj => (
+            <ArticlePreview article={adj} layout="card" />
+          ))}
+        </div>
+      </footer>
+    )}
+  </div>
+</BaseLayout>
