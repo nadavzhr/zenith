@@ -18,8 +18,8 @@ const readTime = article.data.readTime || "5 min read";
 ---
 
 {layout === 'card' ? (
-  <div class={`border border-on-surface/10 rounded-sm bg-surface overflow-hidden group hover:border-primary/30 transition-colors h-full ${className}`}>
-    <a href={path} class="block cursor-pointer focus:outline-none focus:bg-surface-container-low transition-colors h-full flex flex-col p-6 md:p-8">
+  <div class={`border border-on-surface/10 rounded-sm bg-surface/80 dark:bg-surface/40 backdrop-blur-sm overflow-hidden group hover:border-primary/40 transition-all hover:shadow-sm ${className}`}>
+    <a href={path} class="block cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-inset transition-colors h-full flex flex-col p-6 md:p-8 hover:bg-primary/[0.03]">
       <div class="flex-grow flex flex-col">
         <div class="flex items-center gap-3 mb-4 text-[11px] font-mono uppercase tracking-wider text-secondary/60">
           <span>{date}</span>
@@ -49,7 +49,7 @@ const readTime = article.data.readTime || "5 min read";
   </div>
 ) : (
   <article class={`group/article border-t border-on-surface/10 ${className}`}>
-    <a href={path} class="block py-8 px-4 md:px-6 -mx-4 md:-mx-6 rounded-sm hover:bg-surface-container-low transition-colors">
+    <a href={path} class="block py-8 px-4 md:px-6 -mx-4 md:-mx-6 rounded-sm hover:bg-primary/[0.04] transition-all duration-300 border border-transparent hover:border-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-inset">
       <div class="flex items-center gap-3 mb-3 text-[11px] font-mono uppercase tracking-wider text-secondary/60">
         <time>{date}</time>
         <span class="text-secondary/30">•</span>

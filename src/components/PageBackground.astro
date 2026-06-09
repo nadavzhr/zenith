@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: any;
+  alt?: string;
+  opacity?: string;
+  darkOpacity?: string;
+}
+
+const { 
+  src, 
+  alt = "", 
+  opacity = "opacity-100", 
+  darkOpacity = "dark:opacity-15" 
+} = Astro.props;
+---
+
+<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+  <Image 
+    src={src} 
+    alt={alt} 
+    class={`w-full h-full object-cover ${opacity} ${darkOpacity} contrast-[1.05] mix-blend-multiply dark:mix-blend-normal`}
+  />
+</div>

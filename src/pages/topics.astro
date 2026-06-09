@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { ArrowRight } from 'lucide-react';
 import ArticlePreview from '../components/ArticlePreview.astro';
+import PageBackground from '../components/PageBackground.astro';
+import { Image } from 'astro:assets';
+import bgImage from '../assets/watercolor-background.png';
 import {
   getTopics,
   getArticlesByTopic,
@@ -16,8 +19,10 @@ const topics = await getTopics();
 ---
 
 <BaseLayout title="Topics">
+  <PageBackground src={bgImage} />
+
   {/* Page Header */}
-  <header class="mb-16 md:mb-24 text-center md:text-left">
+  <header class="mb-16 md:mb-24 text-center md:text-left relative">
     <h1 class="font-serif text-[48px] font-bold tracking-[-0.02em] text-on-surface mb-6">Topics.</h1>
     <p class="text-[18px] text-on-surface-variant max-w-2xl leading-[1.6]">
       A structured collection of technical essays, broken down from first principles to reveal the underlying mechanics of modern systems.

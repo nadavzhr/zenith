@@ -1,19 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ArticlePreview from '../components/ArticlePreview.astro';
+import PageBackground from '../components/PageBackground.astro';
 import {
   getTopics,
   getArticles,
   topicOf,
   articleSlug,
-  formatDate,
-  articleDate,
   articleDateOrEpoch,
 } from '../lib/content';
 
-import heroImage from '../assets/hero-desk.png';
+import monkImage from '../assets/meditating-monk.jpeg';
 
 const base = import.meta.env.BASE_URL;
 const articles = await getArticles();
@@ -32,24 +31,16 @@ const categories = topics.slice(0, 3);
 ---
 
 <BaseLayout>
-  <section class="mb-section-gap mt-8 md:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-    <div>
-      <h1 class="font-serif text-[48px] md:text-[72px] font-bold text-on-surface mb-6 leading-[1.1] tracking-[-0.02em]">
+  <PageBackground src={monkImage} />
+
+  <section class="mb-section-gap mt-16 md:mt-32 flex flex-col items-center text-center">
+    <div class="max-w-3xl">
+      <h1 class="font-serif text-[56px] md:text-[84px] font-bold text-on-surface mb-6 leading-[1.1] tracking-[-0.03em]">
         Structural Thought.
       </h1>
-      <p class="text-[18px] md:text-[20px] text-secondary max-w-xl mb-8 lg:mb-0 leading-[1.6]">
-        A digital vault for technical mastery. Breaking down complex systems through the Feynman Technique and first-principles thinking.
+      <p class="text-[18px] md:text-[22px] text-on-surface/80 max-w-xl mx-auto mb-12 leading-[1.6]">
+        A digital vault for technical mastery. Breaking down complex systems through first-principles thinking.
       </p>
-    </div>
-    <div class="w-full aspect-[4/3] overflow-hidden bg-surface-container-high relative rounded-sm group/hero">
-      <Image 
-        src={heroImage} 
-        alt="Minimalist desk setup from above" 
-        width={800}
-        height={600}
-        class="w-full h-full object-cover filter grayscale contrast-125 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/hero:scale-105 group-hover/hero:grayscale-[0.5] group-hover/hero:contrast-110" 
-      />
-      <div class="absolute inset-0 bg-primary/0 group-hover/hero:bg-primary/10 transition-colors duration-700 pointer-events-none mix-blend-color"></div>
     </div>
   </section>
 
@@ -87,10 +78,10 @@ const categories = topics.slice(0, 3);
         <ArticlePreview article={article} layout="card" />
       ))}
     </div>
-    <div class="mt-12">
-      <a href={`${base}articles`} class="inline-flex items-center gap-2 border-b-2 border-primary-container pb-1 text-[16px] text-on-surface font-medium hover:text-primary transition-all hover:gap-3 group">
+    <div class="mt-12 flex">
+      <a href={`${base}articles`} class="inline-flex w-fit items-center gap-2 border-b-2 border-primary-container pb-1 text-[16px] text-on-surface font-medium hover:text-primary transition-all hover:gap-3 group">
         View All Writing
-        <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
+        <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
       </a>
     </div>
   </section>
@@ -104,7 +95,7 @@ const categories = topics.slice(0, 3);
           Organized by fundamental domains, these collections serve as the primary entry points into the digital record.
         </p>
       </div>
-      <a href={`${base}topics`} class="inline-flex items-center gap-2 border-b-2 border-primary-container pb-1 text-[16px] text-on-surface font-medium hover:text-primary transition-all hover:gap-3 group">
+      <a href={`${base}topics`} class="inline-flex self-start w-fit items-center gap-2 border-b-2 border-primary-container pb-1 text-[16px] text-on-surface font-medium hover:text-primary transition-all hover:gap-3 group">
         All Topics
         <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
       </a>
