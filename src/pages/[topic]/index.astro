@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import ArticlePreview from '../../components/ArticlePreview.astro';
+import bgImage from '../../assets/watercolor-background.png';
+import PageBackground from '../../components/PageBackground.astro';
 import {
   getTopics,
   getArticlesByTopic,
@@ -34,6 +36,8 @@ const articles = await getArticlesByTopic(topic.id);
 ---
 
 <BaseLayout title={topic.data.title} description={topic.data.description}>
+  <PageBackground src={bgImage} />
+
   {topic.data.cover && (
     <div class="w-full h-[300px] md:h-[400px] overflow-hidden mb-12 bg-surface-container rounded-sm border border-on-surface/5">
       <Image 
